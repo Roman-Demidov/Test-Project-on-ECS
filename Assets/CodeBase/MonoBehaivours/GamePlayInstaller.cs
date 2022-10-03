@@ -1,5 +1,5 @@
 using codeBase.components;
-using codeBase.factories;
+using codeBase.configs;
 using codeBase.scriptableObjects;
 using codeBase.systems;
 using Leopotam.EcsLite;
@@ -18,32 +18,39 @@ namespace codeBase.monoBehaivours
         [SerializeField] private GameDate _gameDate;
 
         private EcsWorld _ecsWorld;
-        private GameObject _player;
-
         private IEcsSystems _initSystems;
         private IEcsSystems _updateSystems;
+        private IEcsSystems _fixedUpdateSystems;
+        private GameObject _player;
 
         public override void InstallBindings()
         {
             _ecsWorld = new EcsWorld();
-            _player = new ObjectFactory().getPlayer(_playerPrefab, _initPoint.position);
+            _player = createPlayer();
+            
             initAllModels();
             InitAllSystems();
+            
+            Container
+                .Bind<IEcsSystems>()
+                .WithId(Constants.ECS_SISTEM_UPDATE_ID)
+                .FromInstance(_updateSystems)
+                .NonLazy();
 
             Container
                 .Bind<IEcsSystems>()
-                .FromInstance(_updateSystems)
-                .AsSingle()
+                .WithId(Constants.ECS_SISTEM_FIXED_UPDATE_ID)
+                .FromInstance(_fixedUpdateSystems)
                 .NonLazy();
         }
 
         private void initAllModels()
         {
-            _initSystems = new EcsSystems(_ecsWorld, _playerSettings)
-                .Add(new PlayerInitSystem(_player.GetComponentInChildren<Animator>(), _player.transform))
+            _initSystems = new EcsSystems(_ecsWorld)
+                .Add(new InitPlayerSystem(_player, _playerSettings))
                 .Add(new InitMainCameraSystem(_cameraSettings, _player.transform))
-                .Add(new DoorInitSystem())
-                .Add(new ButtonInitSystem());
+                .Add(new InitDoorSystem())
+                .Add(new InitButtonSystem());
             _initSystems.Init();
         }
 
@@ -51,24 +58,31 @@ namespace codeBase.monoBehaivours
         {
             _updateSystems = new EcsSystems(_ecsWorld, _gameDate)
                 .Add(new UnityInputSystam())
-                .Add(new RaycasrSystam())
-                .Add(new PlayerMovementListenerSystem())
-                .Add(new PlayerMovementSystem())
-                .Add(new CheckMovementSystem())
+                .Add(new RaycastSystam())
+                .Add(new PlayerStartMoveListenerSystem())
+                .Add(new PlayerCollisionEnterSystem())
+                .Add(new PlayerCollisionExitSystem())
                 .Add(new AnimationSystem())
-                .Add(new CameraFollowSystem())
-                .Add(new CheckButtonPressedSystem())
-                .Add(new CheckButtonReleaseSystem())
-                .Add(new DoorStopOpeningSystem())
+                .Add(new ButtonPressedListenerSystem())
+                .Add(new ButtonReleaseListenerSystem())
                 .Add(new DoorStartOpeningSystem())
-                .Add(new DoorOpeningSystem())
-                .DelHere<EventOnCollisionEnterComponent>()
-                .DelHere<EventOnCollisionExitComponent>()
-                .DelHere<EventMouseInputComponent>()
+                .Add(new DoorStopOpeningSystem())
+                .Add(new RemoveMovementSystem())
+                .DelHere<EventPlayerCollisionEnterComponent>()
+                .DelHere<EventPlayerCollisionExitComponent>()
                 .DelHere<EventButtonPressedComponent>()
                 .DelHere<EventButtonReleaseComponent>()
-                .DelHere<RaycastEventComponent>();
+                .DelHere<EventMouseInputComponent>()
+                .DelHere<EventRaycastHitGroundComponent>();
             _updateSystems.Init();
+
+            _fixedUpdateSystems = new EcsSystems(_ecsWorld, _gameDate)
+                .Add(new CameraFollowSystem())
+                .Add(new RotateSystem())
+                .Add(new MovementSystem())
+                .Add(new UpdateTransformPositionSystem())
+                .Add(new UpdateTransformRotationSystem());
+            _fixedUpdateSystems.Init();
         }
 
         private void OnDestroy()
@@ -76,6 +90,11 @@ namespace codeBase.monoBehaivours
             _initSystems.Destroy();
             _updateSystems.Destroy();
             _ecsWorld.Destroy();
+        }
+
+        private GameObject createPlayer()
+        {
+            return Container.InstantiatePrefab(_playerPrefab, _initPoint.position, Quaternion.identity, null);
         }
     }
 }
