@@ -1204,7 +1204,6 @@ MonoBehaviour:
   _playerSettings: {fileID: 11400000, guid: 4a770e02839a7394daad75b167ab60ef, type: 2}
   _cameraSettings: {fileID: 11400000, guid: 60fbaeea25e380e4ca313b88bf5fc6e5, type: 2}
   _gameDate: {fileID: 11400000, guid: 3426262ed46931e4f840cd9decef0c57, type: 2}
-  _updateECSRun: {fileID: 975723617}
 --- !u!114 &1677974542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1263,7 +1262,7 @@ GameObject:
   m_Layer: 0
   m_Name: Player Init Position
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
