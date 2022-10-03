@@ -1,6 +1,4 @@
 ﻿namespace codeBase.components
 {
-    public struct DoorActivatedComponent
-    {
-    }
+    public struct DoorActivatedComponent { }
 }

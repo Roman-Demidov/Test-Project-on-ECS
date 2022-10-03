@@ -4,9 +4,8 @@ namespace codeBase.components
 {
     public struct DoorComponent
     {
-        public Transform door;
-        public Transform open;
-        public Transform close;
+        public Vector3 openPosition;
+        public Vector3 closePosition;
         public float moveSpeed;
     }
 }

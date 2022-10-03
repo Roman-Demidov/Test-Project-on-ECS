@@ -1,7 +1,4 @@
 ﻿namespace codeBase.components
 {
-    public struct ButtonComponent
-    {
-
-    }
+    public struct ButtonComponent { }
 }
