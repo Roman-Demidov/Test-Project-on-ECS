@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: PlayerSettings
   m_EditorClassIdentifier: 
   moveSpeed: 2.5
+  radius: 0.3
