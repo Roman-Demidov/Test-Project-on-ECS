@@ -1204,6 +1204,7 @@ MonoBehaviour:
   _playerSettings: {fileID: 11400000, guid: 4a770e02839a7394daad75b167ab60ef, type: 2}
   _cameraSettings: {fileID: 11400000, guid: 60fbaeea25e380e4ca313b88bf5fc6e5, type: 2}
   _gameDate: {fileID: 11400000, guid: 3426262ed46931e4f840cd9decef0c57, type: 2}
+  _updateECSRun: {fileID: 975723617}
 --- !u!114 &1677974542
 MonoBehaviour:
   m_ObjectHideFlags: 0
