@@ -16,6 +16,7 @@ namespace codeBase.monoBehaivours
         [SerializeField] private PlayerSettings _playerSettings;
         [SerializeField] private CameraSettings _cameraSettings;
         [SerializeField] private GameDate _gameDate;
+        [SerializeField] private UpdateECSRun _updateECSRun;
 
         private EcsWorld _ecsWorld;
         private IEcsSystems _initSystems;
@@ -30,18 +31,8 @@ namespace codeBase.monoBehaivours
             
             initAllModels();
             InitAllSystems();
-            
-            Container
-                .Bind<IEcsSystems>()
-                .WithId(Constants.ECS_SISTEM_UPDATE_ID)
-                .FromInstance(_updateSystems)
-                .NonLazy();
 
-            Container
-                .Bind<IEcsSystems>()
-                .WithId(Constants.ECS_SISTEM_FIXED_UPDATE_ID)
-                .FromInstance(_fixedUpdateSystems)
-                .NonLazy();
+            _updateECSRun.init(_updateSystems, _fixedUpdateSystems);
         }
 
         private void initAllModels()
