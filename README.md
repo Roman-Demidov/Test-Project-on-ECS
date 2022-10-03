@@ -1,11 +1,10 @@
 # Test-Project-on-ECS
-Number of hours spent on development 18
+Number of hours spent on development 20
 
 list of systems for server:
 
 PlayerStartMoveListenerSystem
-PlayerCollisionEnterSystem
-PlayerCollisionExitSystem
+PlayerOnCollisionSystem
 ButtonPressedListenerSystem
 ButtonReleaseListenerSystem
 DoorStartOpeningSystem
