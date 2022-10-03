@@ -15,7 +15,6 @@ namespace codeBase.systems
             var tracsformPool = world.GetPool<TransformComponent>();
             var positionPool = world.GetPool<PositionComponent>();
             var radiusPool = world.GetPool<RadiusComponent>();
-            var activePool = world.GetPool<ActiveComponent>();
             var colorIdPool = world.GetPool<ColorIdComponent>();
 
             foreach (var button in buttons)
@@ -26,7 +25,6 @@ namespace codeBase.systems
                 colorIdPool.Add(buttonEntity).colorType = button.colorType;
                 positionPool.Add(buttonEntity).position = button.transform.position;
                 radiusPool.Add(buttonEntity).radius = button.radius;
-                activePool.Add(buttonEntity);
             }
         }
     }

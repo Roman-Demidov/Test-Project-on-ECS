@@ -8,15 +8,16 @@ namespace codeBase.systems
         public void Run(IEcsSystems systems)
         {
             var world = systems.GetWorld();
-            var eventfilter = world.Filter<EventPlayerCollisionExitComponent>().End();
-            var buttonfilter = world.Filter<ButtonComponent>().Inc<ColorIdComponent>().Exc<CollisionWithPlayerComponent>().End();
+            var eventFilter = world.Filter<EventPlayerCollisionExitComponent>().End();
+            var buttonFilter = world.Filter<ButtonComponent>().Inc<ColorIdComponent>()
+                .Exc<CollisionWithPlayerComponent>().End();
 
             var buttonReleaseEventPool = world.GetPool<EventButtonReleaseComponent>();
             var colorIdPool = world.GetPool<ColorIdComponent>();
 
-            foreach (var eventEntity in eventfilter)
+            foreach (var eventEntity in eventFilter)
             {
-                foreach (var buttonEntity in buttonfilter)
+                foreach (var buttonEntity in buttonFilter)
                 {
                     var buttonReleaseEventEntity = world.NewEntity();
                     buttonReleaseEventPool.Add(buttonReleaseEventEntity).colorType = colorIdPool.Get(buttonEntity).colorType;

@@ -8,14 +8,14 @@ namespace codeBase.systems
         public void Run(IEcsSystems systems)
         {
             var world = systems.GetWorld();
-            var playerfilter = world.Filter<PlayerComponent>().Inc<PositionComponent>().Inc<RadiusComponent>().End();
+            var playerFilter = world.Filter<PlayerComponent>().Inc<PositionComponent>().Inc<RadiusComponent>().End();
             var objectfilter = world.Filter<PositionComponent>().Inc<RadiusComponent>().Exc<CollisionWithPlayerComponent>().End();
             var positionPool = world.GetPool<PositionComponent>();
             var radiusPool = world.GetPool<RadiusComponent>();
             var eventPool = world.GetPool<EventPlayerCollisionEnterComponent>();
             var collisionWithPlayerPool = world.GetPool<CollisionWithPlayerComponent>();
 
-            foreach (var plauerEntity in playerfilter)
+            foreach (var plauerEntity in playerFilter)
             {
                 var playerPos = positionPool.Get(plauerEntity).position;
                 var playerRadius = radiusPool.Get(plauerEntity).radius;

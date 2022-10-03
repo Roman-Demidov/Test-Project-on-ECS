@@ -21,7 +21,7 @@ namespace codeBase.systems
 
                 Vector3 currentPos = positionComponent.position;
                 Vector3 targetPos = movementComponent.newPosition;
-                float moveSpeed = movementComponent.moveSpeed * Constants.DELTATIME;
+                float moveSpeed = movementComponent.moveSpeed * Constants.DELTA_TIME;
 
                 positionComponent.position = Vector3.MoveTowards(currentPos, targetPos, moveSpeed);
             }

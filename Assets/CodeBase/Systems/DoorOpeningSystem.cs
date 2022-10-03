@@ -8,17 +8,17 @@ namespace codeBase.systems
         public void Run(IEcsSystems systems)
         {
             var world = systems.GetWorld();
-            var eventfilter = world.Filter<EventButtonPressedComponent>().End();
-            var doorfilter = world.Filter<DoorComponent>().Inc<ColorIdComponent>().End();
+            var eventFilter = world.Filter<EventButtonPressedComponent>().End();
+            var doorFilter = world.Filter<DoorComponent>().Inc<ColorIdComponent>().End();
 
             var eventPool = world.GetPool<EventButtonPressedComponent>();
             var colorIdPool = world.GetPool<ColorIdComponent>();
             var doorPool = world.GetPool<DoorComponent>();
             var movementPool = world.GetPool<MovementComponent>();
 
-            foreach (var eventEntity in eventfilter)
+            foreach (var eventEntity in eventFilter)
             {
-                foreach (var doorEntity in doorfilter)
+                foreach (var doorEntity in doorFilter)
                 {
                     if(colorIdPool.Get(doorEntity).colorType == eventPool.Get(eventEntity).colorType)
                     {
