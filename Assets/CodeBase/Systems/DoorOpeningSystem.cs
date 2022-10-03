@@ -1,24 +1,34 @@
 ﻿using codeBase.components;
 using Leopotam.EcsLite;
-using UnityEngine;
 
 namespace codeBase.systems
 {
-    public class DoorOpeningSystem : IEcsRunSystem
+    public class DoorStartOpeningSystem : IEcsRunSystem
     {
         public void Run(IEcsSystems systems)
         {
             var world = systems.GetWorld();
-            var filter = world.Filter<DoorComponent>().Inc<DoorActivatedComponent>().End();
+            var eventfilter = world.Filter<EventButtonPressedComponent>().End();
+            var doorfilter = world.Filter<DoorComponent>().Inc<ColorIdComponent>().End();
 
+            var eventPool = world.GetPool<EventButtonPressedComponent>();
+            var colorIdPool = world.GetPool<ColorIdComponent>();
             var doorPool = world.GetPool<DoorComponent>();
+            var movementPool = world.GetPool<MovementComponent>();
 
-            foreach (var entity in filter)
+            foreach (var eventEntity in eventfilter)
             {
-                ref var doorComponent = ref doorPool.Get(entity);
+                foreach (var doorEntity in doorfilter)
+                {
+                    if(colorIdPool.Get(doorEntity).colorType == eventPool.Get(eventEntity).colorType)
+                    {
+                        movementPool.Add(doorEntity);
+                        ref var movementComponent = ref movementPool.Get(doorEntity);
 
-                float moveSpeel = doorComponent.moveSpeed * Time.deltaTime;
-                doorComponent.door.position = Vector3.MoveTowards(doorComponent.door.position, doorComponent.open.position, moveSpeel);
+                        movementComponent.newPosition = doorPool.Get(doorEntity).openPosition;
+                        movementComponent.moveSpeed = doorPool.Get(doorEntity).moveSpeed;
+                    }
+                }
             }
         }
     }
