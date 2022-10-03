@@ -1,1 +1,27 @@
 # Test-Project-on-ECS
+Number of hours spent on development 18
+
+list of systems for server:
+
+PlayerStartMoveListenerSystem
+PlayerCollisionEnterSystem
+PlayerCollisionExitSystem
+ButtonPressedListenerSystem
+ButtonReleaseListenerSystem
+DoorStartOpeningSystem
+DoorStopOpeningSystem
+RemoveMovementSystem
+RotateSystem
+MovementSystem
+
+list of systems for client:
+
+InitPlayerSystem
+InitMainCameraSystem
+InitDoorSystem
+InitButtonSystem
+UnityInputSystam
+RaycastSystam
+CameraFollowSystem
+UpdateTransformPositionSystem
+UpdateTransformRotationSystem
